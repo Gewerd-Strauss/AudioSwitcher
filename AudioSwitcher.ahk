@@ -312,6 +312,7 @@ AS_Escape()
 f_ShowGUI()
 { ;; show the GUI
     GUI, AS: show, AutoSize , AS - Audio-Switcher
+    sleep, 300 ;; make sure accidental spacebar-inputs or other don't immediately trigger a button.
 }
 ChooseAudioOut() 
 { ;; chooses a value to continue with.
@@ -569,7 +570,6 @@ Label_AboutFile:
 script.about()
 return
 
-
 #If  (vMoncnt=1)
 !#Esc::
 :*:s.AS::
@@ -590,6 +590,7 @@ Right::
 SC029::
 f_SwitchSets()
 return
+!Esc::reload
 Obj2Str(Obj,FullPath:=1,BottomBlank:=0){
 	static String,Blank
 	if(FullPath=1)
