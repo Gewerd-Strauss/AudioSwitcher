@@ -1,4 +1,5 @@
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#Requires AutoHotkey v1.1+
 ; #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
@@ -53,11 +54,11 @@ script.Update(,,1) ;DO NOT ACTIVATE THISLINE UNTIL YOU DUMBO HAS FIXED THE DAMN 
 f_CreateTrayMenu()
  
 
-
- oMyDevices := {}
+oMyDevices := {}
 f_LoadDevicesOut()
 f_LoadDevicesIn()
 f_CreateGUI()
+Onmessage(0x404,"f_showGUI2")
 oMyDevices.Push({"DeviceName":"Kopfhörer (WH-1000XM3)", "DeviceID":"SWD\MMDEVAPI\{0.0.0.00000000}.{2DA0C039-7454-45FD-BFCA-4656F85C1384}"})
  
  
@@ -104,13 +105,12 @@ oMyDevices.Push({"DeviceName":"Kopfhörer (WH-1000XM3)", "DeviceID":"SWD\MMDEVAP
  
  ;=============================================================================================
  
- OnMessage(0x219, "WM_DEVICECHANGE") 
+ OnMessage(0x0219, "WM_DEVICECHANGE") 
+ Return
  WM_DEVICECHANGE(wParam, lParam, msg, hwnd)
  {
      SetTimer, CheckDevicesStatus , -1250
  }
-
- Return
 
 
 
@@ -293,12 +293,12 @@ f_CreateGUI()
                 guicontrol, disable, % "ValIn" A_Index
             if (trim(C.1)==ActiveDevices[1])
                 guicontrol, disable, % "Val" A_Index
-            if (c.MaxIndex()!=2) ;; append credits-string to the end of the 
-            gui, add, button, yp+35  h20 glCredits vCredits2, Credits 
-
+            ; if (c.MaxIndex()!=2) ;; append credits-string to the end of the 
+                
+            }
+            
         }
-
-    }
+        gui, add, button, yp+35  h20 glCredits vCredits2, &Credits 
 
     return
 }
@@ -308,6 +308,14 @@ return
 AS_Escape()
 { ;; close the GUI
     gui, AS: hide
+}
+f_showGUI2(wParam, lParam)
+{
+    if (lParam = 0x202)
+    {
+        f_ShowGUI()
+        return 0
+    }
 }
 f_ShowGUI()
 { ;; show the GUI
@@ -574,6 +582,7 @@ return
 !#Esc::
 :*:s.AS::
 #If  (vMoncnt>1)
+:*:s.AS::
 F24::
 f_LoadDevicesOut()
 f_LoadDevicesIn()
