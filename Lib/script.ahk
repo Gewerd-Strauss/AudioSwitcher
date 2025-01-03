@@ -195,6 +195,19 @@ class script {
         gui add, activex, w600 r29 vdoc, htmlFile
         hasKey:=this.HasKey("AboutPath")
         FE:=FileExist(this.AboutPath)
+        if (this.HasKey("AboutPath") && FileExist(this.AboutPath)) {
+            FileRead About_template, % this.AboutPath
+            Clipboard:=About_template
+            if (!InStr(About_template,"v" script.version)) {
+                FileDelete % this.AboutPath
+                loop {
+                    sleep 200
+                    if (!FileExist(this.aboutPath)) {
+                        break
+                    }
+                } 
+            }
+        }
         if (this.HasKey("AboutPath") && !FileExist(this.AboutPath)) || !this.HasKey("AboutPath") {
 
             if (MetadataArray.creditslink and MetadataArray.credits) || IsObject(MetadataArray.credits) || RegexMatch(MetadataArray.credits,"(?<Author>(\w|)*)(\s*\-\s*)(?<Snippet>(\w|\|)*)\s*\-\s*(?<URL>.*)")
@@ -272,27 +285,12 @@ class script {
             } else {
                 LibPath :=A_ScriptDir "\res\script_templates\"
             }
-            for metadata_type, metadata_element in MetaDataArray {
+            for metadata_type, metadata_element in MetadataArray {
                 if (metadata_element="") {
                     continue
                 }
                 ;; search for html formatting files,
                 ;; first in ScriptDir
-                metadata_element:=Trim(metadata_element)
-                ;#Include, % A_LineFile "\script_templates\test.ahk"
-
-                ; if (MetadataArray.some_other_property) {
-                ;     FileRead html, % "some_other_property.html"
-                ;     html := script_FormatEx(html, MetadataArray)
-                ;     template := StrReplace(template, "<!-- $some_other_property -->", html)
-                ; }
-
-                ; ; Or a donation link:
-                ; if (MetadataArray.donate) {
-                ;     FileRead html, % "p-donate.html"
-                ;     html := script_FormatEx(html, MetadataArray)
-                ;     template := StrReplace(template, "<!-- $donate -->", html)
-                ; }
                 if (About_template="") {
 
                     LibPath:=strreplace(LibPath,"\\","\")
@@ -329,30 +327,29 @@ class script {
                     ;html := script_FormatEx(html, MetadataArray)
                     ;m(About_template)
                     About_template := StrReplace(About_template, "<!-- $" metadata_type " -->", html)
-                    ;m(About_template)
+                    About_template := script_FormatEx(About_template, MetadataArray)
+                    OutputDebug % About_template
 
                 }
             }
             if (IsDebug()) {
-                clipboard:=About_template
+                OutputDebug % About_template
             }
-            About_template := script_FormatEx(About_template, MetadataArray)
             if (IsDebug()) {
-                clipboard:=About_template
+                OutputDebug % About_template
             }
             AHKVARIABLES:={"A_ScriptDir":A_ScriptDir,"A_ScriptName":A_ScriptName,"A_ScriptFullPath":A_ScriptFullPath,"A_ScriptHwnd":A_ScriptHwnd,"A_LineNumber":A_LineNumber,"A_LineFile":A_LineFile,"A_ThisFunc":A_ThisFunc,"A_ThisLabel":A_ThisLabel,"A_AhkVersion":A_AhkVersion,"A_AhkPath":A_AhkPath,"A_IsUnicode":A_IsUnicode,"A_IsCompiled":A_IsCompiled,"A_ExitReason":A_ExitReason,"A_YYY":A_YYY,"A_MM":A_MM,"A_DD":A_DD,"A_MMMM":A_MMMM,"A_MMM":A_MMM} ;"A_DDDD","A_DDD","A_WDay","A_YDay","A_YWeek","A_Hour","A_Min","A_Sec","A_MSec","A_Now","A_NowUTC","A_TickCount","A_IsSuspended","A_IsPaused","A_IsCritical","A_BatchLines","A_ListLines","A_TitleMatchMode","A_TitleMatchModeSpeed","A_DetectHiddenWindows","A_DetectHiddenText","A_AutoTrim","A_StringCaseSense","A_FileEncoding","A_FormatInteger","A_FormatFloat","A_SendMode","A_SendLevel","A_StoreCapsLockMode","A_KeyDelay","A_KeyDuration","A_KeyDelayPlay","A_KeyDurationPlay","A_WinDelay","A_ControlDelay","A_MouseDelay","A_MouseDelayPlay","A_DefaultMouseSpeed","A_CoordModeToolTip","A_CoordModePixel","A_CoordModeMouse","A_CoordModeCaret","A_CoordModeMenu","A_RegView","A_IconHidden","A_IconTip","A_IconFile","A_IconNumber","A_TimeIdle","A_TimeIdlePhysical","A_TimeIdleKeyboard","A_TimeIdleMouse","A_DefaultGUI","A_DefaultListView","A_DefaultTreeView","A_Gui","A_GuiControl","A_GuiWidth","A_GuiHeight","A_GuiX","A_GuiY","A_GuiEvent","A_GuiControlEvent","A_EventInfo","A_ThisMenuItem","A_ThisMenu","A_ThisMenuItemPos","A_ThisHotkey","A_PriorHotkey","A_PriorKey","A_TimeSinceThisHotkey","A_TimeSincePriorHotkey","A_EndChar","A_ComSpec","A_Temp","A_OSType","A_OSVersion","A_Is64bitOS","A_PtrSize","A_Language","A_ComputerName","A_UserName","A_WinDir","A_ProgramFiles","A_AppData","A_AppDataCommon","A_Desktop","A_DesktopCommon"]
-                , About_template := script_FormatEx(About_template,AHKVARIABLES)
+            About_template := script_FormatEx(About_template,AHKVARIABLES)
             if (IsDebug()) {
-                clipboard:=About_template
+                OutputDebug % About_template
             }
             ;clipboard:=About_template
-
+            ; FileDelete % this.AboutPath
             fo:=FileOpen(this.AboutPath, 0x1, "UTF-8-RAW").Write(About_template)
             fo.close()
         } else if (this.HasKey("AboutPath")) {
             FileRead About_template, % this.AboutPath
         }
-
         doc.write(About_template)
 
         ;clipboard:=About_template

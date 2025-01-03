@@ -114,6 +114,7 @@
     return
 }
 lCredits:
+FileDelete % script.AboutPath
 script.About()
 return
 AS_Escape()

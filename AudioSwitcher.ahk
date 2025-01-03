@@ -35,7 +35,8 @@ script := {base         : script.base
 
 global bStartOnOutPut:=true
 FileRead version__, % A_ScriptDir "\version.ini"
-script.version := version__
+
+script.version := StrReplace(version__,"`r`n")
 script.Update(,,1) ;DO NOT ACTIVATE THISLINE UNTIL YOU DUMBO HAS FIXED THE DAMN METHOD. God damn it.
     , script.loadCredits(script.resfolder "\credits.txt")
     , script.loadMetadata(script.resfolder "\meta.txt")
@@ -428,6 +429,7 @@ lReload:
 reload
 return
 Label_AboutFile:
+FileDelete % script.AboutPath
 script.about()
 return
 
