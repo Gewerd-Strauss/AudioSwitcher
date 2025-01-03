@@ -34,6 +34,8 @@ script := {base         : script.base
 ; , vfile_local  : A_ScriptDir "\version.ini" 
 
 global bStartOnOutPut:=true
+FileRead version__, % A_ScriptDir "\version.ini"
+script.version := version__
 script.Update(,,1) ;DO NOT ACTIVATE THISLINE UNTIL YOU DUMBO HAS FIXED THE DAMN METHOD. God damn it.
     , script.loadCredits(script.resfolder "\credits.txt")
     , script.loadMetadata(script.resfolder "\meta.txt")
