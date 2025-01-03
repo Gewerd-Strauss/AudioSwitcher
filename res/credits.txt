@@ -1,0 +1,9 @@
+Flipeador       -	   original Script this is based upon   	                            - https://www.autohotkey.com/boards/viewtopic.php?p=221751#p221751
+XMCQCX          -      DeviceIDPnP                                                          - https://www.autohotkey.com/boards/viewtopic.php?f=6&t=108930
+Gewerd Strauss  -      partial, self-written subset of ScriptObj                            - https://gist.github.com/Gewerd-Strauss/8ee61682aef45c0d124b19afaeedc2fe
+Gewerd Strauss  -      ttip                                                                 - https://gist.github.com/Gewerd-Strauss/fad218c28b8120ab1a3cadea1a8dea9b
+lexicos         -      VA, regarding license                                                - https://github.com/ahkscript/VistaAudio, https://raw.githubusercontent.com/ahkscript/VistaAudio/master/LICENSE
+maestrith       -      Obj2Str                                                              - https://www.autohotkey.com/boards/viewtopic.php?t=60522#p255613
+SKAN            -      script_Base64PNG_to_HICON, regarding license                         - https://www.autohotkey.com/boards/viewtopic.php?f=6&t=36636, https://www.autohotkey.com/board/topic/75906-about-my-scripts-and-snippets/
+tidbit et al    -      string_things										                - https://www.autohotkey.com/boards/viewtopic.php?t=53
+Gewerd Strauss  -      main script, 

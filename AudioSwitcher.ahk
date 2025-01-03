@@ -6,50 +6,37 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
 SysGet vMoncnt, MonitorCount
 Menu Tray, Icon, C:\windows\system32\shell32.dll,138 ;Set custom Script icon
-CreditsRaw=
-    (LTRIM
-        author1   -		 snippetName1		   		  			-	URL1
-        Flipeador   -		 original Script		   		  			-	https://www.autohotkey.com/boards/viewtopic.php?p=221751#p221751
-        Gewerd Strauss		- snippetName2|SnippetName3 (both at the same URL)								-	/
-        XMCQCX      - DeviceIDPnP   - https://www.autohotkey.com/boards/viewtopic.php?f=6&t=108930
-    )
+
 FileGetTime ModDate,%A_ScriptFullPath%,M
 FileGetTime CrtDate,%A_ScriptFullPath%,C
 CrtDate:=SubStr(CrtDate,7,  2) "." SubStr(CrtDate,5,2) "." SubStr(CrtDate,1,4)
 ModDate:=SubStr(ModDate,7,  2) "." SubStr(ModDate,5,2) "." SubStr(ModDate,1,4)
-global script := {   base         : script
-        ,name         : regexreplace(A_ScriptName, "\.\w+")
-        ,version      : FileOpen(A_ScriptDir "\version.ini","r").Read()
-        ,author       : "Gewerd Strauss"
-        ,authorID	  : "Laptop-C"
-        ,authorlink   : ""
-        ,email        : ""
-        ,credits      : CreditsRaw
-        ,creditslink  : ""
-        ,crtdate      : CrtDate
-        ,moddate      : ModDate
-        ,homepagetext : ""
-        ,homepagelink : ""
-        ,ghtext 	  : "GH-Repo"
-        ,ghlink       : "https://github.com/Gewerd-Strauss/AudioSwitcher"
-        ,doctext	  : ""
-        ,doclink	  : ""
-        ,forumtext	  : ""
-        ,forumlink	  : ""
-        ,donateLink	  : ""
-        ,resfolder    : A_ScriptDir "\res"
-        ,iconfile	  : ""
-        ,reqInternet   : false
-        ,rfile  	  : "https://github.com/Gewerd-Strauss/AudioSwitcher/archive/refs/heads/MAIN.zip"
-        ,vfile_raw	  : "https://raw.githubusercontent.com/Gewerd-Strauss/AudioSwitcher/main/version.ini" 
-        ,vfile 		  : "https://raw.githubusercontent.com/Gewerd-Strauss/AudioSwitcher/main/version.ini" 
-        ,vfile_local  : A_ScriptDir "\version.ini" 
-        ,config:		[]
-        ,configfile   : A_ScriptDir "\INI-Files\" regexreplace(A_ScriptName, "\.\w+") ".ini"
-        ,configfolder : A_ScriptDir "\INI-Files"}
+global script := new script()
+
+script := {base         : script.base
+        , name         : regexreplace(A_ScriptName, "\.\w+")
+        , crtdate      : CrtDate
+        , moddate      : ModDate
+        , resfolder    : A_ScriptDir "\res"
+        , iconfile	  : ""
+        , config:		[]
+        , configfile   : A_ScriptDir "\INI-Files\" regexreplace(A_ScriptName, "\.\w+") ".ini"
+        , configfolder : A_ScriptDir "\INI-Files"
+        , aboutPath : A_ScriptDir "\res\About.html"
+        , reqInternet   : false
+        , authorID	  : "Laptop-C"
+        , Computername : A_ComputerName
+        , license : A_ScriptDir "\res\LICENSE.txt"
+        , blank : "" }
+; , rfile  	  : "https://github.com/Gewerd-Strauss/AudioSwitcher/archive/refs/heads/MAIN.zip"
+; , vfile_raw	  : "https://raw.githubusercontent.com/Gewerd-Strauss/AudioSwitcher/main/version.ini" 
+; , vfile 		  : "https://raw.githubusercontent.com/Gewerd-Strauss/AudioSwitcher/main/version.ini" 
+; , vfile_local  : A_ScriptDir "\version.ini" 
 
 global bStartOnOutPut:=true
 script.Update(,,1) ;DO NOT ACTIVATE THISLINE UNTIL YOU DUMBO HAS FIXED THE DAMN METHOD. God damn it.
+    , script.loadCredits(script.resfolder "\credits.txt")
+    , script.loadMetadata(script.resfolder "\meta.txt")
 f_CreateTrayMenu()
 
 

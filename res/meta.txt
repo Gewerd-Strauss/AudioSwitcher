@@ -1,0 +1,12 @@
+author          - Gewerd Strauss
+email           - 
+ghtext          - GitHub-Repository
+GH-Author       - Gewerd-Strauss
+GH-Repo         - github.com/Gewerd-Strauss/AudioSwitcher
+doctext         - Documentation
+Documentation   - github.com/Gewerd-Strauss/AudioSwitcher#readme
+donatelink      - 
+homepage        - google.com
+forum           - google.com
+Issues          - github.com/Gewerd-Strauss/AudioSwitcher/issues
+About           - Utility script for switching the actve audio input and output device out of available devices quickly.
